@@ -36,13 +36,13 @@ public class Scanner {
 		int startColumn = source.column;
 		while(true)
 		{
-			//System.out.println("Loop");
+			//System.err.println("Loop");
 			switch(state) {
 			case 0: 
 				if (source.atEOF)
 					return new Token(source.line, source.column, TokenType.EOF, null);
 				else if (source.current == '0' || source.current == ';' || source.current == '+' ||
-						source.current == '-' || source.current == '*' || source.current == '%' ||
+						source.current == '-' || source.current == '*' ||
 						source.current == '=' || source.current == '.')
 				{
 					startLine = source.line;
@@ -78,7 +78,7 @@ public class Scanner {
 				}
 				else
 				{
-					System.out.println("Illegal character: " + source.current);
+					System.err.println("Illegal character at line " + startLine + ", column " + startColumn + ": " + source.current);
 					source.advance();
 				}
 				break;
@@ -101,9 +101,6 @@ public class Scanner {
 				case '*':
 					source.advance();
 					return new Token(startLine, startColumn, TokenType.STAR, null);
-				case '%':
-					source.advance();
-					return new Token(startLine, startColumn, TokenType.MOD, null);
 				case '=':
 					source.advance();
 					return new Token(startLine, startColumn, TokenType.ASSIGN, null);
@@ -117,12 +114,12 @@ public class Scanner {
 					lexeme.append(source.current);
 					source.advance();
 				}
-				else if(Character.isAlphabetic(source.current))
-				{
-					lexeme.append(source.current);
-					source.advance();
-					state = 3;
-				}
+//				else if(Character.isAlphabetic(source.current))
+//				{
+//					lexeme.append(source.current);
+//					source.advance();
+//					state = 3;
+//				}
 				else
 					return new Token(startLine, startColumn, TokenType.NUM, lexeme.toString());
 					
@@ -137,6 +134,10 @@ public class Scanner {
 				{
 					switch(lexeme.toString())
 					{
+					case "mod":
+						return new Token(startLine, startColumn, TokenType.MOD, null);
+					case "div":
+						return new Token(startLine, startColumn, TokenType.DIV, null);
 					case "program":
 						return new Token(startLine, startColumn, TokenType.PROGRAM, null);
 					case "val":
@@ -164,7 +165,10 @@ public class Scanner {
 					state = 6;
 				}
 				else
-					return new Token(startLine, startColumn, TokenType.DIV, null);
+				{
+					System.err.println("'/' needs to be followed by either '*' or '/'. at line " + startLine + ", column" + startColumn);
+					state = 0;
+				}
 				break;
 			case 5:
 				if (source.current != '\n')
@@ -183,6 +187,11 @@ public class Scanner {
 					source.advance();
 					state = 7;
 				}
+				else if (source.atEOF)
+				{
+					System.err.println("A comment at line " + startLine + ", column " + startColumn +  " needs to be closed before End of File.");
+					return new Token(source.line, source.column, TokenType.EOF, null);
+				}
 				else
 				{
 					source.advance();
@@ -194,10 +203,15 @@ public class Scanner {
 					source.advance();
 					state = 0;
 				}
+				else if (source.atEOF)
+				{
+					System.err.println("A comment at line " + startLine + ", column " + startColumn +  " needs to be closed before End of File.");
+					return new Token(source.line, source.column, TokenType.EOF, null);
+				}
 				else
 				{
-					System.out.println("Comment needs to be closed with '/'");
 					source.advance();
+					state = 6;
 				}
 					
 				break;

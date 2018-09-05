@@ -1,0 +1,15 @@
+// Errors
+/ Illegal comment
+{bad characters: !@#$%^&}!@#$%^&
+[]{}()|\\//The { and the } are OK
+`~_:'",<>?{a closed comment
+
+
+foo
+
+
+}
+{and an unclosed one
+
+
+bar

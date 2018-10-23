@@ -18,6 +18,26 @@ public enum TokenType {
 	ID, // Identifier
 	PROGRAM, //Program
 	VAL, // Variable
+	// New
+	STRING,
+	VAR,
+	INT,
+	BOOL,
+	VOID,
+	FUN,
+	LET,
+	IF,
+	THEN,
+	ELSE,
+	WHILE,
+	DO,
+	INPUT,
+	AND,
+	OR,
+	NOT,
+	TRUE,
+	FALSE,
+	// New end
 	PRINT,
 	BEGIN,
 	END,
@@ -25,4 +45,14 @@ public enum TokenType {
 	MOD, // modelater (%)
 	ASSIGN,	// assignment (=)
 	PERIOD,
+	// New
+	EQUAL, 
+	NOTEQUAL, 
+	LESSEQUAL, 
+	GREATEREQUAL, 
+	LESS,
+	GREATER,
+	COLON, LPAREN, RPAREN, COMMA,
+	// New end
+	
 }

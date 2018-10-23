@@ -1,6 +1,7 @@
-12 +	3
-   -
-// This is a comment
-456// This is another comment
-  *  7890
-;
+program foo;
+val bend = 0;
+val break = 1;
+begin print bend + break *
+// ignore this
+2// and this
+end.

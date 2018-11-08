@@ -1,5 +1,9 @@
 package ast;
 
+import interp.SymbolTable;
+import interp.Value;
+import interp.VoidValue;
+
 public class Param extends ASTNode {
 	String id;
 	Type typ;
@@ -26,5 +30,8 @@ public class Param extends ASTNode {
 		// TODO Auto-generated method stub
 		System.out.println(indent + "Val " + id + " : " + typ);
 	}
-
+	public Value interpret(SymbolTable table) {
+		//TODO
+		return new VoidValue();
+	}
 }

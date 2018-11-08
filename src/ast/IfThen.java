@@ -1,8 +1,22 @@
 package ast;
 
+import interp.BoolValue;
+import interp.BoolCell;
+import interp.SymbolTable;
+import interp.Value;
+import interp.VoidValue;
+
 public class IfThen extends Stmt {
 	Expr test;
 	Stmt trueClause;
+	public Value interpret(SymbolTable table) {	//IfThen
+		BoolValue b = new BoolValue(((BoolCell) test.interpret(table)).get());
+		if (b.get()){
+			return trueClause.interpret(table);
+		} else {
+			return new VoidValue();
+		}
+	} 
 	
 	public IfThen(Expr test, Stmt trueClause) {
 		this.test = test;

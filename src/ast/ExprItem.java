@@ -1,5 +1,8 @@
 package ast;
 
+import interp.SymbolTable;
+import interp.Value;
+
 public class ExprItem extends Item {
 	Expr expr;
 	@Override
@@ -22,4 +25,10 @@ public class ExprItem extends Item {
 		this.expr = expr;
 	}
 
+	@Override
+	public Value interpret(SymbolTable table) {
+		return expr.interpret(table);
+	}
+
+	
 }

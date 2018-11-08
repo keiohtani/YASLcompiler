@@ -1,5 +1,9 @@
 package ast;
 
+import interp.IntValue;
+import interp.SymbolTable;
+import interp.Value;
+
 public class IntType extends Type {
 
 	@Override
@@ -12,5 +16,7 @@ public class IntType extends Type {
 		// TODO Auto-generated method stub
 		return "Int";
 	}
-	
+	public Value interpret(SymbolTable table) {	
+		return new IntValue(0);
+	}
 }

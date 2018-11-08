@@ -1,5 +1,5 @@
 // This program shows just about all of YASL
-program demo3;
+program demo4;
   /* Declare some constants */
   val x = 6;
   val y = 7;
@@ -22,22 +22,27 @@ program demo3;
       print "Boo!"
   end;
   fun bar(n: int, b: bool): int;
+    var c: bool;
     fun fact(n: int): int;
       if n > 0 then
       begin
         fact(n - 1) * n
       end
-else
+      else
         (y + x) mod 2;
   begin
-    while b do
+    let c = b;
+    while c do
     begin
-let b = not b;
-foo() end;
-fact(n) end;
+      print "Hello";
+      let c = not c;
+      foo()
+    end;
+    fact(n)
+  end;
 begin
   input "Enter a number", a;
   let c2 = bar(a, x <> y);
-  print "The answer is """, c2--z+c1, """!";
-  input "Hit any key to end"
+  print "The answer is """, c2-z+c1, """!";
+  input "Hit return to end"
 end.

@@ -1,5 +1,11 @@
 package ast;
 
+import interp.BoolCell;
+import interp.IntCell;
+import interp.SymbolTable;
+import interp.Value;
+import interp.VoidValue;
+
 public class VarDecl extends ASTNode {
 	
 	private String id;
@@ -30,5 +36,15 @@ public class VarDecl extends ASTNode {
 	public void display(String indent) {
 		System.out.println(indent + "Var " + id + " : " + typ);
 	}
-
+	public Value interpret(SymbolTable table) {	//VarDecls
+		if(typ.getClass() == IntType.class) {
+			table.bind(id, new IntCell(0));
+		} else if (typ.getClass() == BoolType.class) {
+			table.bind(id, new BoolCell(false));
+		} else {
+			System.err.println("The type is mismatch.");
+			System.exit(1);
+		}
+		return new VoidValue();
+	}
 }

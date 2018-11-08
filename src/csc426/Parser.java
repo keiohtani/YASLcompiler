@@ -2,8 +2,6 @@ package csc426;
 
 import java.util.ArrayList;
 
-import javafx.util.Pair; 
-
 import ast.*;
 
 public class Parser {
@@ -290,22 +288,18 @@ public class Parser {
 		}
 	}
 	private Expr parseExpr() {
-		Expr expr = parseSimpleExpr();
-		Pair<Op2, Expr> pair = parseExprRest();
-		if (pair == null) {
-			return expr;
-		} else {
-			return new BinOp(expr, pair.getKey(), pair.getValue());
-		}
+		Expr left = parseSimpleExpr();
+		Expr expr = parseExprRest(left);
+		return expr;
 	}
 
-	private Pair<Op2, Expr> parseExprRest() {
+	private Expr parseExprRest(Expr left) {
 		if (check(TokenType.EQUAL, TokenType.NOTEQUAL, TokenType.LESSEQUAL, TokenType.LESS, TokenType.GREATER, TokenType.GREATEREQUAL)) {
 			Op2 op = parseRelOp();
-			Expr expr = parseSimpleExpr();
-			return new Pair<Op2, Expr>(op, expr);
+			Expr right = parseSimpleExpr();
+			return new BinOp(left, op, right);
 		} else {
-			return null;
+			return left;
 		}
 	}
 
@@ -332,40 +326,37 @@ public class Parser {
 	}
 	private Expr parseSimpleExpr() {
 		Expr left = parseTerm();
-		Pair<Op2, Expr> pair = parseSimpleExprRest();
-		if (pair == null) {
-			return left;
-		} else {
-			return new BinOp(left, pair.getKey(), pair.getValue());
-		}
+		Expr expr = parseSimpleExprRest(left);
+		return expr;
 	}
-	private Pair<Op2, Expr> parseSimpleExprRest() {
+	private Expr parseSimpleExprRest(Expr left) {
 		if (check(TokenType.PLUS, TokenType.MINUS, TokenType.OR)) {
 			Op2 op = parseAddOp();
-			Expr expr = parseSimpleExpr();
-			return new Pair<Op2, Expr>(op, expr);
+			Expr right = parseTerm();
+			return parseSimpleExprRest(new BinOp(left, op, right));
 		} else {
-			return null; // epsilon
+			return left;// epsilon
 		}
 	}
 	private Expr parseTerm() {
-		Expr left = parseFactor();
-		Pair<Op2, Expr> pair = parseTermRest();
-		// the problem is when the case goes in to the else statement and returns null. 
-		// should I have if statement to check that or 
-		if (pair == null) {
-			return left;
-		} else {
-			return new BinOp(left, pair.getKey(), pair.getValue());
+		Expr result = parseFactor();
+		while (check(TokenType.STAR, TokenType.DIV, TokenType.MOD, TokenType.AND)) {
+			Op2 op = parseMulOp();
+			Expr t = parseFactor();
+			result = new BinOp(result, op, t);
 		}
+		return result;
+//		Expr left = parseFactor();
+//		Expr expr = parseTermRest(left);
+//		return expr;
 	}
-	private Pair<Op2, Expr> parseTermRest() {
+	private Expr parseTermRest(Expr left) {
 		if (check(TokenType.STAR, TokenType.DIV, TokenType.MOD, TokenType.AND)) {
 			Op2 op = parseMulOp();
-			Expr expr = parseTerm();
-			return new Pair<Op2, Expr>(op, expr);
+			Expr right = parseTerm();
+			return parseTermRest(new BinOp(left, op, right));
 		} else {
-			return null; // epsilon
+			return left; // epsilon
 		}
 	}
 	private Op2 parseMulOp() {

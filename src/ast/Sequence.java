@@ -2,6 +2,10 @@ package ast;
 
 import java.util.ArrayList;
 
+import interp.SymbolTable;
+import interp.Value;
+import interp.VoidValue;
+
 public class Sequence extends Stmt {
 	ArrayList<Stmt> body;
 	
@@ -26,5 +30,15 @@ public class Sequence extends Stmt {
 			stmt.display(indent + "  ");
 		}
 	}
-
+	public Value interpret(SymbolTable table) {	//Sequence
+		Value lastValue = null;
+		for (Stmt s : body){
+			lastValue = s.interpret(table);
+		}
+		if (lastValue != null) {
+			return lastValue;
+		} else {
+			return new VoidValue();
+		}
+	}
 }

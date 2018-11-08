@@ -1,0 +1,5 @@
+// This program shows just about all of YASL
+program demo3;
+begin
+  let c2 = 1 - 2 + 3 * 5
+end.

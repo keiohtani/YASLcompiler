@@ -2,6 +2,9 @@ package ast;
 
 import java.util.ArrayList;
 
+import interp.SymbolTable;
+import interp.Value;
+
 public class Block extends ASTNode{
 	private ArrayList<ValDecl> vals;
 	private ArrayList<VarDecl> vars;
@@ -60,5 +63,18 @@ public class Block extends ASTNode{
 			fun.display(indent + "  ");
 		}
 		body.display(indent + "  ");
+	}
+	
+	public Value interpret(SymbolTable table) {	//Block
+		for (ValDecl d: vals) {
+			d.interpret(table);
+		}
+		for (VarDecl d: vars) {
+			d.interpret(table);
+		}
+		for (FunDecl d: funs) {
+			d.interpret(table);
+		}
+		return body.interpret(table);
 	}
 }

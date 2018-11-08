@@ -1,5 +1,8 @@
 package ast;
 
+import interp.SymbolTable;
+import interp.Value;
+
 public class ExprStmt extends Stmt {
 	Expr expr;
 	public ExprStmt(Expr expr) {
@@ -18,5 +21,7 @@ public class ExprStmt extends Stmt {
 		System.out.println(indent + "ExperStmt");
 		expr.display(indent + "  ");
 	}
-
+	public Value interpret(SymbolTable table) {	
+		return expr.interpret(table);
+	}
 }

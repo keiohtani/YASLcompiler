@@ -1,5 +1,9 @@
 package ast;
 
+import interp.SymbolTable;
+import interp.Value;
+import interp.VoidValue;
+
 public class VoidType extends Type {
 
 	@Override
@@ -11,5 +15,8 @@ public class VoidType extends Type {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "Void";
+	}
+	public Value interpret(SymbolTable table) {
+		return new VoidValue();
 	}
 }

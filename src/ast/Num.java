@@ -1,5 +1,9 @@
 package ast;
 
+import interp.IntValue;
+import interp.SymbolTable;
+import interp.Value;
+
 public class Num extends Expr {
 	int value;
 	public Num(int value) {
@@ -16,5 +20,7 @@ public class Num extends Expr {
 		// TODO Auto-generated method stub
 		System.out.println(indent + "Num " + value);
 	}
-
+	public Value interpret(SymbolTable table) {
+		return new IntValue(value);
+	}
 }

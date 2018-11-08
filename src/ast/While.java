@@ -1,5 +1,11 @@
 package ast;
 
+import interp.BoolCell;
+import interp.BoolValue;
+import interp.SymbolTable;
+import interp.Value;
+import interp.VoidValue;
+
 public class While extends Stmt {
 	Expr test;
 	Stmt body;
@@ -31,6 +37,17 @@ public class While extends Stmt {
 		System.out.println(indent + "While");
 		test.display(indent + "  ");
 		body.display(indent + "  ");
+	}
+
+	@Override
+	public Value interpret(SymbolTable table) {
+		// TODO Auto-generated method stub
+		BoolValue b = new BoolValue(((BoolCell)test.interpret(table)).get());
+		while (b.get()) {
+			body.interpret(table);
+			b = new BoolValue(((BoolCell)test.interpret(table)).get());
+		}
+		return new VoidValue();
 	}
 
 }

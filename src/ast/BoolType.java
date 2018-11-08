@@ -1,5 +1,9 @@
 package ast;
 
+import interp.BoolValue;
+import interp.SymbolTable;
+import interp.Value;
+
 public class BoolType extends Type {
 
 	@Override
@@ -11,5 +15,8 @@ public class BoolType extends Type {
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "Bool";
+	}
+	public Value interpret(SymbolTable table) {	//FunDecls
+		return new BoolValue(false);
 	}
 }

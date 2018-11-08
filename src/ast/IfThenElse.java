@@ -1,5 +1,9 @@
 package ast;
 
+import interp.BoolValue;
+import interp.SymbolTable;
+import interp.Value;
+
 public class IfThenElse extends Stmt {
 	Expr test;
 	Stmt trueClause;
@@ -42,6 +46,16 @@ public class IfThenElse extends Stmt {
 		test.display(indent + "  ");
 		trueClause.display(indent + "  ");
 		falseClause.display(indent + "  ");
+	}
+
+	@Override
+	public Value interpret(SymbolTable table) {
+		BoolValue b = (BoolValue) test.interpret(table);
+		if (b.get()){
+			return trueClause.interpret(table);
+		} else {
+			return falseClause.interpret(table);
+		}
 	}
 
 }

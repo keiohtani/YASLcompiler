@@ -1,5 +1,8 @@
 package ast;
 
+import interp.SymbolTable;
+import interp.Value;
+
 public class Id extends Expr {
 	String id;
 	public Id(String id) {
@@ -16,5 +19,7 @@ public class Id extends Expr {
 		// TODO Auto-generated method stub
 		System.out.println(indent + "Id " + id);
 	}
-
+	public Value interpret(SymbolTable table) {	//FunDecls
+		return table.lookup(id);
+	}
 }

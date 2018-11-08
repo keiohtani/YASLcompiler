@@ -2,6 +2,11 @@ package ast;
 
 import java.util.ArrayList;
 
+import interp.FunValue;
+import interp.SymbolTable;
+import interp.Value;
+import interp.VoidValue;
+
 public class FunDecl extends ASTNode {
 	String id;
 	Type typ;
@@ -64,5 +69,10 @@ public class FunDecl extends ASTNode {
 	public void setBlock(Block block) {
 		this.block = block;
 	}
-
+	
+	
+	public Value interpret(SymbolTable table) {	//FunDecls
+		table.bind(id, new FunValue(params, typ, block));
+		return new VoidValue();
+	}
 }

@@ -1,5 +1,8 @@
 package ast;
 
+import interp.SymbolTable;
+import interp.Value;
+
 public class Program extends ASTNode {
 	public String getName() {
 		return name;
@@ -36,5 +39,10 @@ public class Program extends ASTNode {
 		System.out.println(indent + "Program " + name);
 		block.display(indent + "  ");
 	}
-
+	public Value interpret(SymbolTable table) {	//program
+		table.enter(name);
+		Value value = block.interpret(table);
+		table.exit();
+		return value;
+	}
 }

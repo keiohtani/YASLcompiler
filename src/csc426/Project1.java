@@ -18,11 +18,11 @@ import interp.SymbolTable;
  * 
  */
 public class Project1 {
-	public static void main(String[] args) throws IOException {
+	public static void main(String fileName) throws IOException {
 		try
 		{
-			Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
-//			Scanner scanner = new Scanner(new FileReader("TestCases/test01.in"));
+//			Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(System.in)));
+			Scanner scanner = new Scanner(new FileReader(fileName));
 			Parser parser = new Parser(scanner);
 			Program program = parser.parseProgram();
 			Token token;
@@ -30,7 +30,7 @@ public class Project1 {
 				token = scanner.next();
 				System.out.println(token);
 			} while (token.type != TokenType.EOF);
-			program.display("");
+//			program.display("");
 			program.interpret(new SymbolTable());
 			scanner.close();
 		}
